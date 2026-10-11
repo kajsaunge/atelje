@@ -1,27 +1,43 @@
-export type ArtworkStatus = "available" | "reserved" | "sold" | "on_loan";
-export type Visibility = "published" | "draft";
+export type ArtworkStatus =
+  "available" | "reserved" | "sold" | "on_loan" | "in_progress";
+// det du fyller i själv – resten skapas automatiskt
+export type ImageFormValues = Omit<
+  ArtworkImage,
+  "id" | "url" | "width" | "height"
+>;
 
 export type ArtworkImage = {
+  id: string;
   alt: string;
-  imageUrl: string;
-  // image dimensions in pixles, not size where it'll be used
+  url: string;
+  caption?: string;
   width: number;
   height: number;
+  inGallery?: boolean;
 };
+
+export type WorkImage = ArtworkImage & { inGallery: boolean }; // process + färdigt verk
+export type ReferenceImage = ArtworkImage;
+export type Todo = { id: string; text: string; done: boolean };
+
 export type Artwork = {
   id: string;
+  slug: string;
   title: string;
   description?: string;
-  artist: string;
   year?: number;
-  medium: string;
+  medium: string[];
+  base: string;
+  frame?: string;
+  mainImageId?: string;
   // ex 70x100cm
   dimensions: string;
   price?: number;
-  // first is main image. It's a tuple and requires at least one item
-  images: [ArtworkImage, ...ArtworkImage[]];
-  visibility: Visibility;
+  images?: WorkImage[];
+  references?: ReferenceImage[];
+  inGallery: boolean;
   status: ArtworkStatus;
+  todos?: Todo[];
 };
 
 export type Exhibition = {
@@ -32,5 +48,5 @@ export type Exhibition = {
   endDate: string;
   location?: string;
   artworkIds: string[];
-  visibility: Visibility;
+  inGallery?: boolean;
 };
