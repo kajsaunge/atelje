@@ -13,7 +13,6 @@ export type ArtworkImage = {
   caption?: string;
   width: number;
   height: number;
-  inGallery?: boolean;
 };
 
 export type WorkImage = ArtworkImage & { inGallery: boolean }; // process + färdigt verk
